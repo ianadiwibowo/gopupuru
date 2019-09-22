@@ -1,12 +1,31 @@
 # Binaries for programs and plugins
+*.dll
+*.dylib
 *.exe
 *.exe~
-*.dll
 *.so
-*.dylib
+*.so
+
+# Service compiled binary
+scout_regiment
 
 # Test binary, build with `go test -c`
 *.test
 
-# Output of the go coverage tool, specifically when used with LiteIDE
+# Test coverage results
+*.html
 *.out
+
+# Dependencies
+vendor/
+
+# Environment variables
+.env
+
+# OS-generated trashes
+*.log
+*~
+.*.sw?
+.DS_Store
+.idea
+.vscode
