@@ -1,14 +1,15 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/ianadiwibowo/scout-regiment/delivery/serializer"
 	"github.com/ianadiwibowo/scout-regiment/model"
 	"github.com/jinzhu/gorm"
+	"github.com/thedevsaddam/govalidator"
 )
 
 // CatsHandler ...
@@ -18,10 +19,10 @@ type CatsHandler struct {
 }
 
 // NewCatsHandler ...
-func NewCatsHandler(db *gorm.DB) *CatsHandler {
+func NewCatsHandler(db *gorm.DB, serializer *serializer.Serializer) *CatsHandler {
 	return &CatsHandler{
 		DB:         db,
-		Serializer: serializer.New(),
+		Serializer: serializer,
 	}
 }
 
@@ -41,20 +42,59 @@ func (h *CatsHandler) Show(w http.ResponseWriter, r *http.Request) {
 
 	// Process
 	cat := model.Cat{}
-	h.DB.First(&cat, id)
+	err = h.DB.First(&cat, id).Error
 
-	// Respond
-	if cat.ID == 0 {
+	// Response
+	if gorm.IsRecordNotFoundError(err) {
 		respondWithNotFound(w)
 		return
 	}
 
-	respondWithSuccess(w, h.Serializer.SimpleCat(cat))
+	respondWithOK(w, h.Serializer.SimpleCat(cat))
 }
 
 // Create handles POST /cats
 func (h *CatsHandler) Create(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("You called POST /cats")
+	// Request validation
+	var params createParams
+	err := validateCreateParams(r, &params)
+	if err != nil {
+		respondWithBadRequest(w, err)
+		return
+	}
+
+	// Process
+
+	// Response
+}
+
+type createParams struct {
+	Name      string `json:"name"`
+	Color     string `json:"color"`
+	Naughty   bool   `json:"naughty"`
+	Dexterity int    `json:"dexterity"`
+}
+
+func validateCreateParams(r *http.Request, params *createParams) url.Values {
+	rules := govalidator.MapData{
+		"name":      []string{"required"},
+		"color":     []string{"required", "in:white,black,orange,green"},
+		"naughty":   []string{"bool"},
+		"dexterity": []string{"required", "numeric_between:1,10"},
+	}
+	options := govalidator.Options{
+		Request: r,
+		Data:    params,
+		Rules:   rules,
+	}
+	validator := govalidator.New(options)
+
+	err := validator.ValidateJSON()
+	if len(err) != 0 {
+		return err
+	}
+
+	return nil
 }
 
 // Update handles PATCH /cats/{id}

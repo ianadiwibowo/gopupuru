@@ -5,13 +5,19 @@ import (
 	"net/http"
 )
 
-// Response is the standard API data-meta response
-type Response struct {
+// SuccessResponse is the standard success data-meta response
+type SuccessResponse struct {
 	Data interface{} `json:"data"`
 	Meta Meta        `json:"meta"`
 }
 
-// Message is used only for errors
+// FailedResponse is the standard failed errors-meta response
+type FailedResponse struct {
+	Error interface{} `json:"error"`
+	Meta  Meta        `json:"meta"`
+}
+
+// Message ...
 type Message struct {
 	Message string `json:"message"`
 }
@@ -21,15 +27,49 @@ type Meta struct {
 	HTTPStatus int `json:"http_status"`
 }
 
-// Success 200
-func respondWithSuccess(w http.ResponseWriter, data interface{}) {
+// OK 200
+func respondWithOK(w http.ResponseWriter, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 
 	httpStatus := http.StatusOK
 	w.WriteHeader(httpStatus)
 
-	response := Response{
+	response := SuccessResponse{
 		Data: data,
+		Meta: Meta{
+			HTTPStatus: httpStatus,
+		},
+	}
+
+	json.NewEncoder(w).Encode(response)
+}
+
+// Created 201
+func respondWithCreated(w http.ResponseWriter, data interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+
+	httpStatus := http.StatusCreated
+	w.WriteHeader(httpStatus)
+
+	response := SuccessResponse{
+		Data: data,
+		Meta: Meta{
+			HTTPStatus: httpStatus,
+		},
+	}
+
+	json.NewEncoder(w).Encode(response)
+}
+
+// Bad Request 400
+func respondWithBadRequest(w http.ResponseWriter, data interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+
+	httpStatus := http.StatusBadRequest
+	w.WriteHeader(httpStatus)
+
+	response := FailedResponse{
+		Error: data,
 		Meta: Meta{
 			HTTPStatus: httpStatus,
 		},
@@ -45,8 +85,8 @@ func respondWithNotFound(w http.ResponseWriter) {
 	httpStatus := http.StatusNotFound
 	w.WriteHeader(httpStatus)
 
-	response := Response{
-		Data: Message{
+	response := FailedResponse{
+		Error: Message{
 			Message: "Not found",
 		},
 		Meta: Meta{
@@ -64,8 +104,8 @@ func respondWithUnprocessableEntity(w http.ResponseWriter) {
 	httpStatus := http.StatusUnprocessableEntity
 	w.WriteHeader(httpStatus)
 
-	response := Response{
-		Data: Message{
+	response := FailedResponse{
+		Error: Message{
 			Message: "Unprocessable entity",
 		},
 		Meta: Meta{

@@ -50,6 +50,14 @@
   version = "v1.2.0"
 
 [[projects]]
+  digest = "1:0347fb0e6285667b1db3433577cc6454e719c4119d0e9b993b8df3a1c181f67f"
+  name = "github.com/thedevsaddam/govalidator"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "01bf6ba67ac42ba976ff56c550a95ad8010cfa3e"
+  version = "v1.9.8"
+
+[[projects]]
   digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
   name = "google.golang.org/appengine"
   packages = ["cloudsql"]
@@ -66,6 +74,7 @@
     "github.com/gorilla/mux",
     "github.com/jinzhu/gorm",
     "github.com/subosito/gotenv",
+    "github.com/thedevsaddam/govalidator",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
