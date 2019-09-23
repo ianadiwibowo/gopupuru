@@ -1,10 +1,12 @@
 package app
 
 import (
-	"fmt"
-	"net/http"
+	"os"
 
+	"github.com/goji/httpauth"
 	"github.com/gorilla/mux"
+	"github.com/ianadiwibowo/scout-regiment/db"
+	"github.com/ianadiwibowo/scout-regiment/delivery/handler"
 	"github.com/jinzhu/gorm"
 )
 
@@ -14,18 +16,23 @@ type App struct {
 	DB     *gorm.DB
 }
 
+// New initializes the app
+func New() *App {
+	return &App{
+		Router: mux.NewRouter().StrictSlash(true),
+		DB:     db.New(),
+	}
+}
+
 // SetupRouter initializes the API endpoint routes
 func (app *App) SetupRouter() {
-	app.Router.Methods("GET").Path("/cats/{id}").HandlerFunc(app.getCatHandler)
-	app.Router.Methods("POST").Path("/cats").HandlerFunc(app.createCatHandler)
-}
+	// Authenticate using basic auth
+	app.Router.Use(httpauth.SimpleBasicAuth(os.Getenv("BASIC_USERNAME"), os.Getenv("BASIC_PASSWORD")))
 
-// GET /cats/{id}
-func (app *App) getCatHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("You called GET /cats/{id}")
-}
-
-// POST /cats
-func (app *App) createCatHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("You called POST /cats")
+	catsHandler := handler.NewCatsHandler(app.DB)
+	app.Router.Methods("GET").Path("/cats").HandlerFunc(catsHandler.Index)
+	app.Router.Methods("GET").Path("/cats/{id}").HandlerFunc(catsHandler.Show)
+	app.Router.Methods("POST").Path("/cats").HandlerFunc(catsHandler.Create)
+	app.Router.Methods("PATCH").Path("/cats/{id}").HandlerFunc(catsHandler.Update)
+	app.Router.Methods("DELETE").Path("/cats/{id}").HandlerFunc(catsHandler.Delete)
 }

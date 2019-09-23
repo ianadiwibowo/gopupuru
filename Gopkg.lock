@@ -10,6 +10,14 @@
   version = "v1.4.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:205b3c069003f9d1458e4304427ab3652d8d7bac3bde1568a2d5486451e453bd"
+  name = "github.com/goji/httpauth"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "2da839ab0f4df05a6db5eb277995589dadbd4fb9"
+
+[[projects]]
   digest = "1:cbec35fe4d5a4fba369a656a8cd65e244ea2c743007d8f6c1ccb132acf9d1296"
   name = "github.com/gorilla/mux"
   packages = ["."]
@@ -54,6 +62,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/go-sql-driver/mysql",
+    "github.com/goji/httpauth",
     "github.com/gorilla/mux",
     "github.com/jinzhu/gorm",
     "github.com/subosito/gotenv",

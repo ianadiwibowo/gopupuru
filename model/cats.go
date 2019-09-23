@@ -1,16 +1,16 @@
-package models
+package model
 
 import "time"
 
 // Cat model represents table `cats`
 type Cat struct {
-	ID        uint64
-	Name      string
-	Color     CatColor
-	Naughty   bool
-	Dexterity int
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID        uint64    `json:"id"`
+	Name      string    `json:"name"`
+	Color     CatColor  `json:"color"`
+	Naughty   bool      `json:"naughty"`
+	Dexterity int       `json:"dexterity"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // CatColor is the enumeration of Cat.Color, part of Cat model

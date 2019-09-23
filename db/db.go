@@ -5,13 +5,12 @@ import (
 	"log"
 	"os"
 
-	// go-sql-driver/mysql is needed implicitly by GORM
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // GORM needs this implicitly
 	"github.com/jinzhu/gorm"
 )
 
-// SetupDatabase initializes GORM
-func SetupDatabase() *gorm.DB {
+// New initializes GORM connection to database
+func New() *gorm.DB {
 	connectionString := fmt.Sprintf(
 		"%s:%s@(%s:%s)/%s?charset=utf8mb4&parseTime=true",
 		os.Getenv("DATABASE_USERNAME"),
