@@ -5,9 +5,9 @@ import (
 
 	"github.com/goji/httpauth"
 	"github.com/gorilla/mux"
-	"github.com/ianadiwibowo/scout-regiment/db"
-	"github.com/ianadiwibowo/scout-regiment/delivery/handler"
-	"github.com/ianadiwibowo/scout-regiment/delivery/serializer"
+	"github.com/ianadiwibowo/gopupuru/db"
+	"github.com/ianadiwibowo/gopupuru/delivery/handler"
+	"github.com/ianadiwibowo/gopupuru/delivery/serializer"
 	"github.com/jinzhu/gorm"
 )
 

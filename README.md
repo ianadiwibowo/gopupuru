@@ -4,7 +4,7 @@ Pupuru Go microservices boilerplate.
 
 # Development
 
-- Clone this repository: `git clone https://github.com/ianadiwibowo/scout-regiment`
+- Clone this repository: `git clone https://github.com/ianadiwibowo/gopupuru`
 - Copy `.env` from `.env.template`: `cp .env.template .env`
 - Setup database (only for first time): `rake db:create`
 - Migrate database: `rake db:migrate`

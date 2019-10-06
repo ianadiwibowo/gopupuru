@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/ianadiwibowo/scout-regiment/delivery/serializer"
-	"github.com/ianadiwibowo/scout-regiment/model"
+	"github.com/ianadiwibowo/gopupuru/delivery/serializer"
+	"github.com/ianadiwibowo/gopupuru/model"
 	"github.com/jinzhu/gorm"
 	"github.com/thedevsaddam/govalidator"
 )

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ianadiwibowo/scout-regiment/app"
+	"github.com/ianadiwibowo/gopupuru/app"
 	"github.com/subosito/gotenv"
 )
 

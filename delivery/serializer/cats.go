@@ -1,6 +1,6 @@
 package serializer
 
-import "github.com/ianadiwibowo/scout-regiment/model"
+import "github.com/ianadiwibowo/gopupuru/model"
 
 // SerializedSimpleCat ...
 type SerializedSimpleCat struct {
